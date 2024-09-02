@@ -12,7 +12,6 @@ st.set_page_config(
 # Sidebar content
 with st.sidebar:
     st.markdown("<h1 style='color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
-    st.write("EmailGenie is an AI-powered email generator designed to craft personalized cold outreach emails. Type in some basic information below and EmailGenie will generate a personalised outreach email for you. Continue chatting with EmailGenie to refine the email as per your needs.")
     st.subheader("Basic Inputs to get started")
     email_type = st.radio(
         "What kind of outreach email do you want to generate?",
@@ -23,7 +22,7 @@ with st.sidebar:
     )
     
     purpose_questions = {
-        'Sales pitch': 'What are the key benefits of the product',
+        'Sales pitch': 'Tell me more about the product and its key benefits to the recipient',
         'Networking Introduction': 'Key things about you that you want to mention',
         'Job Inquiry': 'Tell me more about the job and your experience relevant to the job',
         'Event Invitation': 'What is the event about?',
@@ -39,6 +38,9 @@ with st.sidebar:
 
 
 # Initialize chat history
+    if "chat_enabled" not in st.session_state:
+        st.session_state.chat_enabled = False
+    
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = ""
 
@@ -64,10 +66,14 @@ with st.sidebar:
 
         st.session_state.response = [response, "Add in any additional comments or feedback to tailor this email to your needs"]
 
+        # Enable the chat after submit
+        st.session_state.chat_enabled = True
+
 # Main content with the heading
 st.markdown("<h1 style='font-size: 3em; color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
-st.subheader("Talk your way through data")
-
+st.write("EmailGenie is an AI-powered email generator designed to craft personalized cold outreach emails. ")
+st.write("Step 1: Fill out the form in the left panel and hit submit")
+st.write("Step 2: EmailGenie will generate a personalised outreach email for you below. Continue chatting with EmailGenie to refine the email as per your needs.")
 if st.session_state.response:
     st.markdown(f"""
         <div style='display: flex; align-items: center; margin-top: 20px;'>
@@ -94,35 +100,35 @@ for chat_user, chat_ai in zip(st.session_state.chat_history_user.split("\nUser:"
         st.markdown(chat_ai.strip())
 
 
-# Chat input
-prompt = st.chat_input("Type your message here...")
+if st.session_state.chat_enabled:
+    prompt = st.chat_input("Type your message here...")
 
-if prompt:
-    # Get the response from the LLM API
-    response = chat_response(email_type, purpose_questions, product_content, recipient_content, tone, prompt, st.session_state.chat_history)
+    if prompt:
+        # Get the response from the LLM API
+        response = chat_response(email_type, purpose_questions, product_content, recipient_content, tone, prompt, st.session_state.chat_history)
 
-    # Update the chat history
-    st.session_state.chat_history += f"\nUser: {prompt}\nAI: {response}"
+        # Update the chat history
+        st.session_state.chat_history += f"\nUser: {prompt}\nAI: {response}"
 
-    st.session_state.chat_history_user += f"\nUser: {prompt}"
-    st.session_state.chat_history_ai += f"\nAI: {response}"
+        st.session_state.chat_history_user += f"\nUser: {prompt}"
+        st.session_state.chat_history_ai += f"\nAI: {response}"
 
 
 
-    # Display user message
-    st.markdown(f"""
-        <div style='display: flex; align-items: center; justify-content: flex-end; margin-top: 10px;'>
-            <div style='background-color: #007BFF; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
-                {prompt}
+        # Display user message
+        st.markdown(f"""
+            <div style='display: flex; align-items: center; justify-content: flex-end; margin-top: 10px;'>
+                <div style='background-color: #007BFF; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
+                    {prompt}
+                </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-    # Display AI response
-    st.markdown(f"""
-        <div style='display: flex; align-items: center; margin-top: 20px;'>
-            <div style='background-color: #6C757D; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
-                {response} 
+        # Display AI response
+        st.markdown(f"""
+            <div style='display: flex; align-items: center; margin-top: 20px;'>
+                <div style='background-color: #6C757D; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
+                    {response} 
+                </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
