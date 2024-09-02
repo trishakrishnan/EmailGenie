@@ -6,3 +6,4 @@ streamlit
 groq
 python-dotenv
 gunicorn
+pytest
