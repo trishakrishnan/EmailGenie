@@ -13,28 +13,24 @@ st.set_page_config(
 with st.sidebar:
     st.markdown("<h1 style='color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
     st.subheader("Basic Inputs to get started")
+
     email_type = st.radio(
         "What kind of outreach email do you want to generate?",
-        ('Sales pitch', 'Networking Introduction', 'Job Inquiry', 'Event Invitation', 'Content Promotion',
-         'Testimonial Request', 'Connect on social media'),
+        ('Sales pitch', 'Networking Introduction', 'Job Inquiry', 'Event Invitation'),
         index=0,
         horizontal=False
     )
-    
-    purpose_questions = {
-        'Sales pitch': 'Tell me more about the product and its key benefits to the recipient',
-        'Networking Introduction': 'Key things about you that you want to mention',
-        'Job Inquiry': 'Tell me more about the job and your experience relevant to the job',
-        'Event Invitation': 'What is the event about?',
-        'Content Promotion': 'What are the key highlights about your content',
-        'Testimonial Request': 'Tell me more about the product/service you want a testimonial for',
-        'Connect on social media': 'Tell me more about you'
-    }
 
-    # Set the default value of the text area based on the selected email type
-    product_content = st.text_area(purpose_questions[email_type])
-    recipient_content = st.text_area("Tell me more about the recipient")
+    st.subheader("Recipient Details")
+    recipient_name = st.text_area("Recipient's Details - Name, company, role")
+
+    st.subheader("Sender Details")
+    sender_name = st.text_area("Sender's Details - Name, company, role")
+
+
     tone = st.radio("What should be the tone of the email?", ("Formal", "Casual", "Professional"), index=0, horizontal=True)
+    cta = st.text_area("What is the Call to Action")
+
 
 
 # Initialize chat history
@@ -56,37 +52,39 @@ with st.sidebar:
     if "prompt" not in st.session_state:
         st.session_state.prompt = ""
 
+
+ 
     # Display submit button and handle the chat initiation
     if st.button("Submit"):
+        # Clear previous chat history for a fresh start
+        st.session_state.chat_history = ""
+        st.session_state.chat_history_user = ""
+        st.session_state.chat_history_ai = ""
         # Get the response from the LLM API
-        response = chat_response(email_type, purpose_questions, product_content, recipient_content, tone,st.session_state.prompt, st.session_state.chat_history)
+        response = chat_response(email_type, recipient_name,
+                                 sender_name, tone, cta,st.session_state.prompt, st.session_state.chat_history)
 
+        
         # Update the chat history
         st.session_state.chat_history += f"\nAI: {response}"
 
-        st.session_state.response = [response, "Add in any additional comments or feedback to tailor this email to your needs"]
+        st.session_state.response = response
 
         # Enable the chat after submit
         st.session_state.chat_enabled = True
+
 
 # Main content with the heading
 st.markdown("<h1 style='font-size: 3em; color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
 st.write("EmailGenie is an AI-powered email generator designed to craft personalized cold outreach emails. ")
 st.write("Step 1: Fill out the form in the left panel and hit submit")
 st.write("Step 2: EmailGenie will generate a personalised outreach email for you below. Continue chatting with EmailGenie to refine the email as per your needs.")
+
 if st.session_state.response:
     st.markdown(f"""
         <div style='display: flex; align-items: center; margin-top: 20px;'>
             <div style='background-color: #6C757D; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
-                {st.session_state.response[0]} 
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown(f"""
-        <div style='display: flex; align-items: center; margin-top: 20px;'>
-            <div style='background-color: #6C757D; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
-                {st.session_state.response[1]} 
+                {st.session_state.response} 
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -95,9 +93,21 @@ if st.session_state.response:
 # Display chat messages
 for chat_user, chat_ai in zip(st.session_state.chat_history_user.split("\nUser:"), st.session_state.chat_history_ai.split("\nAI:")):
     if chat_user.strip():
-        st.markdown(chat_user.strip())
+        st.markdown(f"""
+    <div style='display: flex; align-items: center; justify-content: flex-end; margin-top: 10px;'>
+        <div style='background-color: #007BFF; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
+            {chat_user.strip()}
+        </div>
+    </div>
+""", unsafe_allow_html=True)
     if chat_ai.strip():
-        st.markdown(chat_ai.strip())
+        st.markdown(f"""
+            <div style='display: flex; align-items: center; margin-top: 20px;'>
+                <div style='background-color: #6C757D; padding: 10px 15px; border-radius: 10px; color: white; max-width: 60%;'>
+                    {chat_ai.strip()}
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
 
 if st.session_state.chat_enabled:
@@ -105,9 +115,11 @@ if st.session_state.chat_enabled:
 
     if prompt:
         # Get the response from the LLM API
-        response = chat_response(email_type, purpose_questions, product_content, recipient_content, tone, prompt, st.session_state.chat_history)
+        response = chat_response(email_type, recipient_name,
+                                 sender_name, tone, cta, prompt, st.session_state.chat_history)
 
         # Update the chat history
+                # Update the chat history
         st.session_state.chat_history += f"\nUser: {prompt}\nAI: {response}"
 
         st.session_state.chat_history_user += f"\nUser: {prompt}"
