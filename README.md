@@ -57,5 +57,9 @@ The backend is powered by a Large Language Model (Groq using Llama 3-8b), which 
 ![image](https://github.com/user-attachments/assets/e0c51aa2-886e-4192-a302-1d4a6394e9f3)
 
 
+![image](https://github.com/user-attachments/assets/3b7cb8e6-784f-4856-b5b9-b01a8583b33a)
+
+
+
 
 
