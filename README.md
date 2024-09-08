@@ -2,12 +2,16 @@
 [![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=Streamlit&logoColor=white)](https://streamlit.io/)
 [![OpenAI](https://img.shields.io/badge/-OpenAI-412991?logo=OpenAI&logoColor=white)](https://openai.com/)
 [![Langchain](https://img.shields.io/badge/-Langchain-gray)](https://langchain.com/)
+[![LLama](https://img.shields.io/badge/-LLama-7932a8?logo=LLama&logoColor=white)](https://llama.ai/)
+[![Perplexity AI](https://img.shields.io/badge/-Perplexity%20AI-232f3e?logo=Perplexity&logoColor=white)](https://www.perplexity.ai/)
+[![LinkedIn Scraper](https://img.shields.io/badge/-LinkedIn%20Scraper-0077B5?logo=LinkedIn&logoColor=white)](https://linkedin.com/)
 
 
 EmailGenie is an AI-powered tool designed to generate personalized cold outreach emails. The tool leverages a Large Language Model (LLM) to assist users in drafting professional emails tailored to specific use cases such as sales pitches, networking, job inquiries, and event invitations. The goal is to simplify the process of writing outreach emails by guiding the user through key details and crafting an email based on the given inputs.
 
 ![image](https://github.com/user-attachments/assets/99909340-8898-4d32-a3c7-e62e9b2db471)
 
+You can explore this tool in deployment [here](https://emailgenie.onrender.com/)
 ## Core Features
 
 **1. User-Friendly Interface:**
