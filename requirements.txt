@@ -1,9 +1,17 @@
 pandas
 numpy
 scikit-learn
+matplotlib  # For generating analytics charts in Streamlit
 gradio
 streamlit
 groq
 python-dotenv
 gunicorn
 pytest
+gspread  # For Google Sheets integration
+oauth2client # Required for Google Sheets API authorization
+sendgrid  # For SendGrid email API
+langchain  # For LLM-based prompt templates and chains
+openai
+langchain-community
+resend
