@@ -1,19 +1,28 @@
 # EmailGenie
 [![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=Streamlit&logoColor=white)](https://streamlit.io/)
-[![OpenAI](https://img.shields.io/badge/-OpenAI-412991?logo=OpenAI&logoColor=white)](https://openai.com/)
 [![Langchain](https://img.shields.io/badge/-Langchain-gray)](https://langchain.com/)
 [![LLama](https://img.shields.io/badge/-LLama-7932a8?logo=LLama&logoColor=white)](https://llama.ai/)
-[![Perplexity AI](https://img.shields.io/badge/-Perplexity%20AI-232f3e?logo=Perplexity&logoColor=white)](https://www.perplexity.ai/)
-[![LinkedIn Scraper](https://img.shields.io/badge/-LinkedIn%20Scraper-0077B5?logo=LinkedIn&logoColor=white)](https://linkedin.com/)
+[![Render](https://img.shields.io/badge/-Render-46E3B7?logo=Render&logoColor=white)](https://render.com/)
+[![gROQ](https://img.shields.io/badge/-gROQ-black)](https://groq.com/)
+[![Google Sheets API](https://img.shields.io/badge/-Google_Sheets_API-34A853?logo=Google-Sheets&logoColor=white)](https://developers.google.com/sheets/api)
+[![Resend](https://img.shields.io/badge/-Resend-FF6F00?logo=mail.ru&logoColor=white)](https://resend.com/)
+
 
 
 EmailGenie is an AI-powered tool designed to generate personalized cold outreach emails. The tool leverages a Large Language Model (LLM) to assist users in drafting professional emails tailored to specific use cases such as sales pitches, networking, job inquiries, and event invitations. The goal is to simplify the process of writing outreach emails by guiding the user through key details and crafting an email based on the given inputs.
 
-You can explore this tool in deployment [here](https://emailgenie.onrender.com/)
+You can explore this tool in deployment [here]([https://emailgenie.onrender.com/](https://emailgenie-4smc.onrender.com/))
+
+
+![image](https://github.com/user-attachments/assets/96109bb9-a17c-423f-af54-1435f2cb9e66)  
+![image](https://github.com/user-attachments/assets/3dc7a16e-9e99-461e-ba5e-54a05221533b)
+![image](https://github.com/user-attachments/assets/0db2fb34-c265-4d80-99ae-81be987e1066)
+![image](https://github.com/user-attachments/assets/94955826-982c-4d1e-ac28-f0216182c76c)
+
+
 
 ## Features
 - **Personalized Email Creation**: Choose from different types of emails and answer relevant questions to personalize your outreach email.
-   ![image](https://github.com/user-attachments/assets/99909340-8898-4d32-a3c7-e62e9b2db471)
 - **Review and Edit**: View a draft of the generated email and make any edits or adjustments before sending.
 - **Save Templates**: Save the generated email templates for future use.
 - **Direct Email Sending**: Send the email directly from the app to your recipient(s).
@@ -77,6 +86,12 @@ The app uses a sidebar for navigation and instructions. The sidebar contains the
 - **Google Sheets API**: Used for saving user profile data and email templates.
 - **Resend API**: Integrated for sending emails directly through the app.
 - **JSON**: For handling data serialization.
+- **LangChain**: A framework for building applications powered by language models. It handles the interaction between the user inputs and the large language model.
+- **Llama3-8b-8192**: A large language model (LLM) with 8 billion parameters, providing sophisticated natural language understanding and generation capabilities.
+- **gROQ**: A high-performance inference engine that optimizes the Llama model for efficient and fast processing, ensuring the emails are generated in a timely and resource-efficient manner.
+- **Render**: A fully managed cloud platform that automates the deployment and scaling of web applications. The EmailGenie app is hosted on Render to ensure reliable, scalable, and efficient access for users.
+- **Resend**: Resend provides a reliable and efficient platform to send emails directly from the application. It's integrated into EmailGenie to handle the dispatch of personalized outreach emails to the recipient(s).
+
 
 
 
