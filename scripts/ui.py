@@ -8,6 +8,15 @@ from util_functions import (add_user_to_gsheet,
                              extract_subject_line_email_body)
 
 
+if 'page' not in st.session_state:
+    st.session_state.page = 0
+
+if "feedback" not in st.session_state:
+    st.session_state.feedback = ""
+
+if "generated_email" not in st.session_state:
+    st.session_state.generated_email = ""
+
 
 with st.sidebar:
     st.markdown("<h1 style='color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
@@ -18,7 +27,7 @@ with st.sidebar:
     0: "Fill in your name, industry, role, and the type of email you wish to generate to get started",
     1: "\n\n Answer these questions to personalise the email to your specific usecase. \n \n  The more details you mention the more personalised the email can be",
     2: "Review the generated email draft, provide any further instructions, or regenerate the email.",
-    3: "Preview, edit, and send the final email to your audience"
+    3: "Preview, edit, and send the final email to your audience\n\n"
 }
     num_pages =4
     
@@ -26,58 +35,58 @@ with st.sidebar:
      # Custom CSS for unified text and radio styling
     st.markdown("""
         <style>
-        /* General text styling for the sidebar */
         .sidebar-text {
-            font-size: 20px;
-            color: #FF6F00;
+            font-size: 16px;
+            padding: 10px;
+            color: #000000;
+            border-radius: 5px;
         }
-        .sidebar-description {
-            font-size: 14px;
-            color: white;
+        .sidebar-text:hover {
+            background-color: #e0e0e0;
+            cursor: pointer;
+        }
+        .sidebar-text.active {
+            background-color: #d6d6d6;
+            font-weight: bold;
+            color: #000000;
+        }
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF6F00; /* Orange color for header */
             margin-bottom: 15px;
         }
-        /* Radio styling */
-        .stRadio > div {
-            font-size: 20px;
-            color: #FF6F00;
-        }
-        .disabled-option {
-            color: grey;
+        .sidebar-text.inactive {
+            color: #8a8a8a;
         }
         </style>
     """, unsafe_allow_html=True)
 
     # Display all page names in the radio button but disable future pages
     options = [page_name[i] for i in range(num_pages)]
-    st.markdown(f"<div class='sidebar-text'>Navigation Guide</div>", unsafe_allow_html=True)
-    current_page = st.radio("", options, index=st.session_state.page)
+    st.markdown(f"<div class='sidebar-title'>Navigation Guide</div>", unsafe_allow_html=True)
 
-    # Disable future steps (not directly clickable)
     for i in range(num_pages):
-        if options[i] == current_page:
-            if i <= st.session_state.page:
-                st.session_state.page = i
-            else:
-                st.error("You can't access this page yet!")
-            break
+        # Set active class if the page is the current one
+        if i == st.session_state.page:
+            st.markdown(f"<div class='sidebar-text active'>{page_name[i]}</div>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<div class='sidebar-text inactive'>{page_name[i]}</div>", unsafe_allow_html=True)
+
 
     # Display instructions for the current page
-    st.markdown(f"<div class='sidebar-text'>Instructions</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='sidebar-title'>Instructions</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='sidebar-description'>{page_instructions[st.session_state.page]}</div>", unsafe_allow_html=True)
+
+    st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True) 
+
+    st.markdown("\n\nYou can find your user profile data and saved templates [here](https://docs.google.com/spreadsheets/d/1eb9SiWTXspLVlpGtoYj0ChNUtLreRyzTs6UScDH2yxE/edit?usp=sharing)")
 
 
 st.markdown("<h1 style='font-size: 3em; color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
 st.write("EmailGenie is an AI-powered email generator designed to craft personalized cold outreach emails.") 
 
 # Step 1: Create form for basic user inputs
-if 'page' not in st.session_state:
-    st.session_state.page = 0
-
-if "feedback" not in st.session_state:
-    st.session_state.feedback = ""
-
-if "generated_email" not in st.session_state:
-    st.session_state.generated_email = ""
 
 if st.session_state.page == 0:
 
@@ -177,9 +186,6 @@ if st.session_state.page == 2:
     # Call the separate function for email generation
     
     generated_email = generate_email(
-        st.session_state.name,
-        st.session_state.industry,
-        st.session_state.role,
         st.session_state.email_type,
         st.session_state.answers,
         st.session_state.feedback
@@ -188,8 +194,6 @@ if st.session_state.page == 2:
 
 
     st.markdown(f'<div class="email-box">{st.session_state.generated_email.strip()}</div>', unsafe_allow_html=True)
-
-        
 
 
     # Allow user to provide further instructions
@@ -202,6 +206,7 @@ if st.session_state.page == 2:
 
             # Collect feedback and regenerate emails
             st.session_state.feedback= additional_instructions 
+            st.session_state.reset_instructions = True
             st.rerun()
  
     with send_col:
@@ -221,7 +226,6 @@ if st.session_state.page == 3:
 
 
     st.session_state.template_save = 0
-    st.session_state.email_send = 0
 
     st.subheader("Review and Edit Your Email")
     
@@ -235,6 +239,8 @@ if st.session_state.page == 3:
     subject, email_content = extract_subject_line_email_body(st.session_state.generated_email)
 
     send_email,save_col, go_back = st.columns(3)
+
+    email_unique_id = ""
 
     # Button to send email
     with send_email:
@@ -251,8 +257,10 @@ if st.session_state.page == 3:
                 # Display success or error message based on the function's return value
                 if email_unique_id:
                     st.session_state.template_send = 1
+                    st.rerun()
                 else:
                     st.session_state.template_send = -1
+                    st.rerun()
 
             else:
                 st.error("Please provide 'to' email addresses.")
@@ -276,7 +284,9 @@ if st.session_state.page == 3:
     if st.session_state.template_save ==1:
         st.success("Email template has been saved successfully.")
 
-    if st.session_state.email_send ==1:
+    if st.session_state.template_send ==1:
         st.success("Email successfully sent")
-    elif st.session_state.email_send ==-1:
+    elif st.session_state.template_send ==-1:
         st.error("Error in sending email")
+
+

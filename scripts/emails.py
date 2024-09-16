@@ -9,7 +9,7 @@ llm = GroqLLM()
 
 
 # Function to handle API processing
-def generate_email(name, industry, role, email_type,answers, additional_inputs):
+def generate_email(email_type,answers, additional_inputs):
     """
     This function takes user inputs and calls the Groq API using Langchain to generate email drafts.
     :param name: User's name
@@ -22,7 +22,7 @@ def generate_email(name, industry, role, email_type,answers, additional_inputs):
     """
     # Set up prompt template and Langchain chain
     prompt = PromptTemplate(
-        input_variables=["name", "industry", "role", "email_type", "answers","additional_inputs"],
+        input_variables=[ "email_type", "answers","additional_inputs"],
         template=email_prompt_template,
     )
 
@@ -31,9 +31,6 @@ def generate_email(name, industry, role, email_type,answers, additional_inputs):
 
     # Call the chain with user inputs
     response = email_chain.run({
-        "name": name,
-        "industry": industry,
-        "role": role,
         "email_type": email_type,
         "answers": answers,
         "additional_inputs": additional_inputs

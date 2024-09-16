@@ -45,15 +45,13 @@ email_type_questions = {
 # Create a prompt template for generating emails
 email_prompt_template = """
 You are a professional email generator. Given the following details, generate 1 versions of a cold email:
-- Name: {name}
-- Industry: {industry}
-- Role: {role}
 - Email Type: {email_type}
-- Email Specific Answers: {answers}
+- Email Recipient, Purpose and other Answers: {answers}
 - Additional Inputs: {additional_inputs}
 
 Please generate 1 email, around 100-150 words. 
 The output should only have the email and no other text.
+Keep placeholders for names of the recipient
 
 Output Structure:
 
@@ -62,5 +60,5 @@ Subject:
 Hi <name>,
 <Email body>
 
-<Salutation>, <sender name>
+<Salutation>, 
 """
