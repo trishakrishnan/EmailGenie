@@ -17,6 +17,12 @@ if "feedback" not in st.session_state:
 if "generated_email" not in st.session_state:
     st.session_state.generated_email = ""
 
+if "template_send" not in st.session_state:
+    st.session_state.template_send = 0
+
+if "template_save" not in st.session_state:
+    st.session_state.template_save = 0
+
 
 with st.sidebar:
     st.markdown("<h1 style='color: #FF6F00;'>EmailGenie</h1>", unsafe_allow_html=True)
@@ -218,6 +224,7 @@ if st.session_state.page == 2:
         if st.button("Go Back"):
             st.session_state.page = 1
             st.rerun()
+
 
 
 
