@@ -11,7 +11,7 @@
 
 EmailGenie is an AI-powered tool designed to generate personalized cold outreach emails. The tool leverages a Large Language Model (LLM) to assist users in drafting professional emails tailored to specific use cases such as sales pitches, networking, job inquiries, and event invitations. The goal is to simplify the process of writing outreach emails by guiding the user through key details and crafting an email based on the given inputs.
 
-You can explore this tool in deployment [here]([https://emailgenie.onrender.com/](https://emailgenie-4smc.onrender.com/))
+You can explore this tool in deployment [here]([https://emailgenie.onrender.com/](https://emailgenie-4smc.onrender.com/)
 
 
 ![image](https://github.com/user-attachments/assets/96109bb9-a17c-423f-af54-1435f2cb9e66)  
