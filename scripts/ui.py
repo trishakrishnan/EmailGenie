@@ -8,41 +8,63 @@ from util_functions import (add_user_to_gsheet,
                              extract_subject_line_email_body)
 
 
-# Custom CSS to enforce a black background across all devices
 st.markdown("""
     <style>
-    /* Set the background color to black */
+    /* Default theme (light mode) */
+    :root {
+        --text-color: #000000;
+        --background-color: #ffffff;
+    }
+    
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --text-color: #ffffff;
+            --background-color: #000000;
+        }
+    }
+    
     body {
-        background-color: #000000 !important;
+        color: var(--text-color);
+        background-color: var(--background-color);
     }
-    /* Ensure main content area text is white */
-    .main, .stTextInput label, .stRadio label, .stMarkdown {
-        color: #FFFFFF !important;
+
+    /* Additional styling for headings, sidebar, etc. */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-color);
     }
-    /* Ensure input fields have a black background and white text */
-    .stTextInput input {
-        background-color: #000000 !important;
-        color: #FFFFFF !important;
-    }
-    /* Ensure radio buttons have white text */
-    .stRadio div {
-        color: #FFFFFF !important;
-    }
-    /* Style for the sidebar */
-    .css-1d391kg {
-        background-color: #000000 !important;
-    }
-    /* Sidebar text should also be white */
-    .sidebar-text, .sidebar-title, .sidebar-description {
-        color: #FFFFFF !important;
-    }
-    /* Sidebar active elements should be bold and orange */
-    .sidebar-text.active {
+
+    .sidebar-title {
+        font-size: 18px;
         font-weight: bold;
-        color: #FF6F00 !important;
+        color: #FF6F00; /* Orange color for header */
+        margin-bottom: 15px;
+
+    .sidebar-text {
+        font-size: 16px;
+        padding: 10px;
+        color: var(--text-color);
+        border-radius: 5px;
     }
+
+    .sidebar-text:hover {
+        background-color: #e0e0e0;
+        cursor: pointer;
+    }
+
+    .sidebar-text.active {
+            background-color: #d6d6d6;
+            font-weight: bold;
+            color: #000000;
+        }
+
+    .sidebar-text.inactive {
+        color: #8a8a8a;
+    }
+
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
 
 
 if 'page' not in st.session_state:
@@ -121,7 +143,7 @@ with st.sidebar:
     st.markdown(f"<div class='sidebar-title'>Instructions</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='sidebar-description'>{page_instructions[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True) 
+    st.markdown("<br><br><br><br><br><br><br><br>", unsafe_allow_html=True) 
 
     st.markdown("\n\nYou can find your user profile data and saved templates [here](https://docs.google.com/spreadsheets/d/1eb9SiWTXspLVlpGtoYj0ChNUtLreRyzTs6UScDH2yxE/edit?usp=sharing)")
 
@@ -208,6 +230,7 @@ if st.session_state.page == 2:
                 padding: 15px;
                 background-color: #333333;
                 margin-bottom: 20px;
+                color: white;
             }
             .button-style {
                 background-color: #ff6f00; /* Button background color */
