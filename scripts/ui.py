@@ -4,7 +4,7 @@ from emails import generate_email
 import json
 from util_functions import (add_user_to_gsheet,
                              update_user_on_gsheet, 
-                             send_email_via_resend, 
+                             send_email_via_mailjet, 
                              extract_subject_line_email_body)
 
 
@@ -241,31 +241,33 @@ if st.session_state.page == 3:
     st.session_state.generated_email = edited_email
 
     # Input the 'to' and 'from' email addresses
+    recipient_name = st.text_input("Recipient Name")
     to_email = st.text_input("Recipient Email Address (To)")
+
 
     subject, email_content = extract_subject_line_email_body(st.session_state.generated_email)
 
     send_email,save_col, go_back = st.columns(3)
 
-    email_unique_id = ""
+    email_success_code = ""
 
     # Button to send email
     with send_email:
         if st.button("Confirm and Send Email"):
             if to_email and edited_email:
                 # Call the send_email_via_sendgrid function
-                email_unique_id = send_email_via_resend(
-                    sender_email= "emailgenie@resend.dev",
+                email_success_code = send_email_via_mailjet(
+                    recipient_name = recipient_name,
                     recipient_email=to_email,
                     subject=subject,
                     body=email_content
                 )
                 
                 # Display success or error message based on the function's return value
-                if email_unique_id:
+                if email_success_code==200:
                     st.session_state.template_send = 1
                     st.rerun()
-                else:
+                elif email_success_code :
                     st.session_state.template_send = -1
                     st.rerun()
 

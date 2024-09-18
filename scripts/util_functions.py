@@ -1,11 +1,10 @@
 import gspread
 from google.oauth2.service_account import Credentials
 import re
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
 import os
 import resend
+from mailjet_rest import Client
 
 
 load_dotenv()
@@ -122,3 +121,32 @@ def send_email_via_resend(sender_email, recipient_email, subject, body):
 
     email = resend.Emails.send(params)
     return  email
+
+
+
+def send_email_via_mailjet(recipient_name, recipient_email, subject, body):
+    
+    api_key = os.environ['MJ_APIKEY_PUBLIC']
+    api_secret = os.environ['MJ_APIKEY_PRIVATE']
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+    data = {
+    'Messages': [
+                    {
+                            "From": {
+                                    "Email": "emailgenie15@gmail.com",
+                                    "Name": "EmailGenie"
+                            },
+                            "To": [
+                                    {
+                                            "Email": f"{recipient_email}",
+                                            "Name": f"{recipient_name}"
+                                    }
+                            ],
+                            "Subject": f"{subject}",
+                            "TextPart": f"{body}",
+                            "DeduplicateCampaign": False
+                    }
+            ]
+    }
+    result = mailjet.send.create(data=data)
+    return  result.status_code

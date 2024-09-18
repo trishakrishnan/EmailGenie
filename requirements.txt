@@ -15,3 +15,4 @@ langchain  # For LLM-based prompt templates and chains
 openai
 langchain-community
 resend
+mailjet_rest
