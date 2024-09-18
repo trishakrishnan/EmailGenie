@@ -8,6 +8,26 @@ from util_functions import (add_user_to_gsheet,
                              extract_subject_line_email_body)
 
 
+# Custom CSS to enforce a black background across all devices
+st.markdown("""
+    <style>
+    /* Set the background color to black */
+    body {
+        background-color: #000000 !important;
+    }
+    /* Style for the main content area */
+    .main {
+        background-color: #000000 !important;
+        color: #FFFFFF !important; /* Text color should be white for better readability */
+    }
+    /* Ensure sidebar background remains consistent */
+    .css-1d391kg {
+        background-color: #000000 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 if 'page' not in st.session_state:
     st.session_state.page = 0
 
