@@ -15,14 +15,31 @@ st.markdown("""
     body {
         background-color: #000000 !important;
     }
-    /* Style for the main content area */
-    .main {
-        background-color: #000000 !important;
-        color: #FFFFFF !important; /* Text color should be white for better readability */
+    /* Ensure main content area text is white */
+    .main, .stTextInput label, .stRadio label, .stMarkdown {
+        color: #FFFFFF !important;
     }
-    /* Ensure sidebar background remains consistent */
+    /* Ensure input fields have a black background and white text */
+    .stTextInput input {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+    }
+    /* Ensure radio buttons have white text */
+    .stRadio div {
+        color: #FFFFFF !important;
+    }
+    /* Style for the sidebar */
     .css-1d391kg {
         background-color: #000000 !important;
+    }
+    /* Sidebar text should also be white */
+    .sidebar-text, .sidebar-title, .sidebar-description {
+        color: #FFFFFF !important;
+    }
+    /* Sidebar active elements should be bold and orange */
+    .sidebar-text.active {
+        font-weight: bold;
+        color: #FF6F00 !important;
     }
     </style>
     """, unsafe_allow_html=True)
